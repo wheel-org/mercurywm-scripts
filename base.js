@@ -1,11 +1,15 @@
 var id = "";
+
 function done() {
-    parent.postMessage("F" + id, "*");
+    parent.postMessage("done " + id, "*");
 }
-parent.postMessage("RequestID", "*");
+parent.postMessage("requestid", "*");
 
 function receiveMessage(event) {
-    id = event.data;
+    var parts = event.data.split(" ");
+    if (parts[0] == "id") {
+        id = parts[1];
+    }
 }
 window.addEventListener("message", receiveMessage, false);
 
