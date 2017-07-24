@@ -1,4 +1,3 @@
-var id = "";
 (function () {
     function loadScript(url, callback) {
         var script = document.createElement("script")
@@ -31,15 +30,24 @@ var id = "";
         });
     });
 })();
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+    var params = {},
+        tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
+
+var $_GET = getQueryParams(document.location.search);
+var id = $_GET["id"];
 
 function done() {
     parent.postMessage("done " + id, "*");
-}
-function receiveMessage(event) {
-    var parts = event.data.split(" ");
-    if (parts[0] == "id") {
-        id = parts[1];
-        alert("Got message");
-    }
 }
 window.addEventListener("message", receiveMessage, false);
