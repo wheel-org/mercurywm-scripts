@@ -46,7 +46,8 @@ function getQueryParams(qs) {
 
 var $_GET = getQueryParams(document.location.search);
 var id = $_GET["id"];
-
+console.log(id);
+console.log($_GET);
 function done() {
     parent.postMessage("done " + id, "*");
 }
