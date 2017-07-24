@@ -1,3 +1,7 @@
+var imported = document.createElement('script');
+imported.src = 'jquery-3.2.1.min.js';
+document.head.appendChild(imported);
+
 function done() {
     parent.postMessage("done " + id, "*");
 }
@@ -11,8 +15,8 @@ window.addEventListener("message", receiveMessage, false);
 
 $(document).ready(function() {
     var cKey = 67;
-
     $(document).keydown(function(e) {
+        console.log(e);
         if (e.ctrlKey && e.keyCode == cKey) {
             done();
             console.log("Control c pressed");
