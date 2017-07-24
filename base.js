@@ -52,4 +52,3 @@ console.log($_GET);
 function done() {
     parent.postMessage("done " + id, "*");
 }
-window.addEventListener("message", receiveMessage, false);
