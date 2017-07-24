@@ -1,5 +1,5 @@
 var imported = document.createElement('script');
-imported.src = 'jquery-3.2.1.min.js';
+imported.src = '/jquery-3.2.1.min.js';
 document.head.appendChild(imported);
 
 function done() {
