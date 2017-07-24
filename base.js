@@ -27,6 +27,7 @@
                     console.log("Control c pressed");
                 }
             });
+            $("body").css("margin", "0px");
         });
     });
 })();
