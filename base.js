@@ -1,10 +1,6 @@
-var id = "";
-
 function done() {
     parent.postMessage("done " + id, "*");
 }
-parent.postMessage("requestid", "*");
-
 function receiveMessage(event) {
     var parts = event.data.split(" ");
     if (parts[0] == "id") {
@@ -17,6 +13,9 @@ $(document).ready(function() {
     var cKey = 67;
 
     $(document).keydown(function(e) {
-        if (e.ctrlKey && e.keyCode == cKey) done();
+        if (e.ctrlKey && e.keyCode == cKey) {
+            done();
+            console.log("Control c pressed");
+        }
     });
 });
