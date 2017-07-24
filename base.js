@@ -28,6 +28,7 @@
                 }
             });
             $("body").css("margin", "0px");
+            $("body").css("overflow", "hidden");
         });
     });
 })();
