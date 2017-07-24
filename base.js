@@ -1,3 +1,4 @@
+var id = "";
 (function () {
     function loadScript(url, callback) {
         var script = document.createElement("script")
@@ -38,6 +39,7 @@ function receiveMessage(event) {
     var parts = event.data.split(" ");
     if (parts[0] == "id") {
         id = parts[1];
+        alert("Got message");
     }
 }
 window.addEventListener("message", receiveMessage, false);
