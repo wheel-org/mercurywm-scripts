@@ -1,37 +1,14 @@
-(function () {
-    function loadScript(url, callback) {
-        var script = document.createElement("script")
-        script.type = "text/javascript";
-        if (script.readyState) { //IE
-            script.onreadystatechange = function () {
-                if (script.readyState == "loaded" || script.readyState == "complete") {
-                    script.onreadystatechange = null;
-                    callback();
-                }
-            };
-        } else { //Others
-            script.onload = function () {
-                callback();
-            };
+window.onload = function() {
+    var cKey = 67;
+    document.addEventListener("keydown", function(e) {
+        console.log(e);
+        if (e.ctrlKey && e.keyCode === cKey) {
+            done();
         }
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-    }
-    loadScript("/jquery-3.2.1.min.js", function () {
-        $(document).ready(function() {
-            var cKey = 67;
-            $(document).keydown(function(e) {
-                console.log(e);
-                if (e.ctrlKey && e.keyCode == cKey) {
-                    done();
-                    console.log("Control c pressed");
-                }
-            });
-            $("body").css("margin", "0px");
-            $("body").css("overflow", "hidden");
-        });
     });
-})();
+    document.body.style.margin = "0px";
+    document.body.style.overflow = "hidden";
+};
 function getQueryParams(qs) {
     qs = qs.split("+").join(" ");
     var params = {},
