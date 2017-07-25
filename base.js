@@ -48,8 +48,15 @@ function getQueryParams(qs) {
 
 var $_GET = getQueryParams(document.location.search);
 var id = $_GET["id"];
-console.log(id);
-console.log($_GET);
+var env = JSON.parse($_GET["env"]);
+function getEnv(key) {
+    for (var i = 0; i < env.length; i++) {
+        if (env[i].key == key) {
+            return env[i].value;
+        }
+    }
+    return "";
+}
 function done() {
     parent.postMessage("done " + id, "*");
 }
