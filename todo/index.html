@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="main.css">        
+		<script type="text/javascript" src="../base.js"></script>
+		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+                $("#txt").text(getEnv("todo"));
+                $("#txt").keypress(function(e) {
+                    setEnv("todo", $(this).text());
+                });
+			});
+		</script>
+	</head>
+	<body>
+       	<textarea placeholder="Write Here" id="txt"></textarea>
+	</body>
+</html>

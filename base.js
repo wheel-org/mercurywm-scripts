@@ -25,7 +25,9 @@ function getQueryParams(qs) {
 
 var $_GET = getQueryParams(document.location.search);
 var id = $_GET["id"];
+var params = $_GET["params"];
 var env = JSON.parse($_GET["env"]);
+
 function getEnv(key) {
     for (var i = 0; i < env.length; i++) {
         if (env[i].key == key) {
@@ -34,6 +36,7 @@ function getEnv(key) {
     }
     return "";
 }
+
 function setEnv(key, value) {
     for (var i = 0; i < env.length; i++) {
         if (env[i].key == key) {
@@ -44,6 +47,7 @@ function setEnv(key, value) {
     env.push({ key: key, value: value });
     parent.postMessage("env|" + key + "|" + value);
 }
+
 function done() {
     parent.postMessage("done|" + id, "*");
 }
