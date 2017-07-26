@@ -8,4 +8,5 @@ textarea {
     background-color: #f8f8f8;
     resize: none;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 14px;
 }
