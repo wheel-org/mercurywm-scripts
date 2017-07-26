@@ -5,10 +5,10 @@
 		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-                $("#txt").text(getEnv("todo"));
+                $("#txt").val(getEnv("todo"));
                 $("#txt").keypress(function(e) {
-                    console.log($(this).text());
-                    setEnv("todo", $(this).text());
+                    console.log($(this).val());
+                    setEnv("todo", $(this).val());
                 });
 			});
 		</script>
