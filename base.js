@@ -45,7 +45,7 @@ function setEnv(key, value) {
         }
     }
     env.push({ key: key, value: value });
-    parent.postMessage("env|" + key + "|" + value);
+    parent.postMessage("env|" + key + "|" + value, "*");
 }
 
 function done() {
