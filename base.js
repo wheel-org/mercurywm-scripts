@@ -41,6 +41,7 @@ function setEnv(key, value) {
     for (var i = 0; i < env.length; i++) {
         if (env[i].key == key) {
             env[i].value = value;
+            parent.postMessage("env|" + key + "|" + value, "*");
             return;
         }
     }

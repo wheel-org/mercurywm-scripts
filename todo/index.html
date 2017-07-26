@@ -6,7 +6,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
                 $("#txt").val(getEnv("todo"));
-                $("#txt").keypress(function(e) {
+                $("#txt").keyup(function(e) {
                     console.log($(this).val());
                     setEnv("todo", $(this).val());
                 });
