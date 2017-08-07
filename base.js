@@ -1,4 +1,5 @@
 window.onload = function() {
+    console.log("onLOAD");
     var cKey = 67;
     document.addEventListener("keydown", function(e) {
         console.log(e);
