@@ -26,7 +26,7 @@ function getQueryParams(qs) {
 
 var $_GET = getQueryParams(document.location.search);
 var id = $_GET["id"];
-var params = $_GET["params"];
+var params = JSON.parse($_GET["params"]);
 var env = JSON.parse($_GET["env"]);
 var workingDirectory = $_GET["workingDirectory"];
 var fileRequestCallback;
