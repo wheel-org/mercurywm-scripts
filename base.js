@@ -9,6 +9,7 @@ window.onload = function() {
     document.body.style.margin = "0px";
     document.body.style.overflow = "hidden";
 };
+
 function getQueryParams(qs) {
     qs = qs.split("+").join(" ");
     var params = {},
@@ -27,6 +28,8 @@ var $_GET = getQueryParams(document.location.search);
 var id = $_GET["id"];
 var params = $_GET["params"];
 var env = JSON.parse($_GET["env"]);
+var workingDirectory = $_GET["workingDirectory"];
+var fileRequestCallback;
 
 function getEnv(key) {
     for (var i = 0; i < env.length; i++) {
@@ -51,4 +54,26 @@ function setEnv(key, value) {
 
 function done() {
     parent.postMessage("done|" + id, "*");
+}
+
+function getFile(path, callback) {
+    fileRequestCallback = callback;
+    parent.postMessage("requestFile|" + path, "*");
+}
+
+function writeFile(path, content) {
+    parent.postMessage("writeFile|" + path + "|" + content, "*");
+}
+
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event) {
+    var message = event.data;
+    var parts = event.data.split("|"); 
+    if (parts[0] === "file") {
+        if (fileRequestCallback != null) {
+            fileRequestCallback(message.substring(message.indexOf("|") + 1));
+        }
+        fileRequestCallback = null;
+    }
 }

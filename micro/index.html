@@ -1,0 +1,31 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="main.css">        
+		<script type="text/javascript" src="../base.js"></script>
+		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				console.log(params);
+				var filePath = "~/.micro";
+				if (params[0]) {
+					if (params[0].startsWith("~")) {
+						filePath = params[0];
+					}
+					else {
+						filePath = workingDirectory + "/" + params[0];
+					}
+				}
+				getFile(filePath, function(fileContents) {
+					$("#txt").val(fileContents);
+				});
+                
+                $("#txt").keyup(function(e) {
+					writeFile(filePath, $(this).val());
+                });
+			});
+		</script>
+	</head>
+	<body>
+       	<textarea placeholder="Write Here" id="txt"></textarea>
+	</body>
+</html>
