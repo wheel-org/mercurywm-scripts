@@ -1,6 +1,6 @@
 textarea {
     width: 100%;
-    height: 100%;
+    height: calc(100% - 20px);
     padding: 12px 20px;
     box-sizing: border-box;
     border: 2px solid #ccc;
@@ -9,4 +9,12 @@ textarea {
     resize: none;
     font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
     font-size: 14px;
+}
+.path {
+    width: 100%;
+    height: 17px;
+    position:absolute;
+    bottom: 0px; font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+    font-size: 12px;
+    padding-left: 6px;
 }

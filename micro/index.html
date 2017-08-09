@@ -18,6 +18,7 @@
 				}
 				getFile(filePath, function(fileContents) {
 					$("#txt").val(fileContents);
+					$(".path").text("Editing " + filePath);
 				});
                 
                 $("#txt").keyup(function(e) {
@@ -27,6 +28,7 @@
 		</script>
 	</head>
 	<body>
-       	<textarea placeholder="Write Here" id="txt"></textarea>
+		   <textarea placeholder="Write Here" id="txt"></textarea>
+		   <div class="path"></div>
 	</body>
 </html>
