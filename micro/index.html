@@ -1,34 +1,34 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="main.css">        
-		<script type="text/javascript" src="../base.js"></script>
-		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				console.log(params);
-				$("#txt").val("");
-				var filePath = "~/.micro";
-				if (params[0]) {
-					if (params[0].startsWith("~")) {
-						filePath = params[0];
-					}
-					else {
-						filePath = workingDirectory + "/" + params[0];
-					}
-				}
-				getFile(filePath, function(fileContents) {
-					$("#txt").val(fileContents);
-					$(".path").text("Editing " + filePath);
-				});
-                
-                $("#txt").keyup(function(e) {
-					writeFile(filePath, $(this).val());
-                });
-			});
-		</script>
+		<link rel="stylesheet" href="main.css" type="text/css">
 	</head>
 	<body>
 		   <textarea placeholder="Write Here" id="txt"></textarea>
 		   <div class="path"></div>
+
+		   <script type="text/javascript" src="../jquery-3.2.1.min.js"  type="text/javascript"></script>
+		   <script type="text/javascript" src="../main.js"  type="text/javascript"></script>
+		   <script type="text/javascript">
+			   $(document).ready(function() {
+				   $("#txt").val("");
+				   var filePath = "~/.micro";
+				   if (params[0]) {
+					   if (params[0].startsWith("~")) {
+						   filePath = params[0];
+					   }
+					   else {
+						   filePath = workingDirectory + "/" + params[0];
+					   }
+				   }
+				   getFile(filePath, function(fileContents) {
+					   $("#txt").val(fileContents);
+					   $(".path").text("Editing " + filePath);
+				   });
+
+				   $("#txt").keyup(function(e) {
+					   writeFile(filePath, $(this).val());
+				   });
+			   });
+		   </script>
 	</body>
 </html>
