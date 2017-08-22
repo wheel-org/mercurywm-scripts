@@ -1,19 +1,18 @@
 <html>
 	<head>
-		<link rel="stylesheet" href="main.css">        
-		<script type="text/javascript" src="../base.js"></script>
+		<link rel="stylesheet" href="main.css" type="text/css"/>
+	</head>
+	<body>
+       	<textarea placeholder="Write Here" id="txt"></textarea>
 		<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="../main.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
                 $("#txt").val(getEnv("todo"));
                 $("#txt").keyup(function(e) {
-                    console.log($(this).val());
                     setEnv("todo", $(this).val());
                 });
 			});
 		</script>
-	</head>
-	<body>
-       	<textarea placeholder="Write Here" id="txt"></textarea>
 	</body>
 </html>
