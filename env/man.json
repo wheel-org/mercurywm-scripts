@@ -1,0 +1,15 @@
+{
+    name: "env",
+    description: "Tool for manipulating environment variables.",
+    version: "1.0.0",
+    usages: [
+        { 
+            command: "env",
+            description: "Displays the list of environment variables."
+        },
+        { 
+            command: "env [var-name] [value]"
+            description: "Sets the given variable to the given value."
+        }
+    ]
+}
