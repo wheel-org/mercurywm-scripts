@@ -1,0 +1,3 @@
+## man
+
+Outputs man pages
