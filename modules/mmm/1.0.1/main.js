@@ -1,11 +1,11 @@
 // mmm: MercuryWM Module Manager 
-// Version: 1.0
+// Version: 1.0.1
 
 // Argument checking
 if (args.length === 0) {
     script.output("mmm: MercuryWM Module Manager");
 	script.output("Usage: mmm [install | remove] [MODULE]");
-	script.output("       mmm [auto-update]");
+	script.output("       mmm [auto-update | list]");
 	return;
 }
 else if (args.length > 2) {
@@ -122,13 +122,17 @@ else if (args[0] === "remove") {
 else if (args[0] === "auto-update") {
 
 }
+else if (args[0] === "list") { 
+	script.output("Installed packages:");
+	config.forEach(function (mod) {
+		script.output(mod.join("@"));
+	});
+}	
 else { 
 	script.output("Unrecognized command: " + args[0]);
 }
 
 // Rewrite Config 
-console.log(config);
 var newConfigFile = config.reduce(function (acc, mod) { return acc.concat([mod.join("@")]); }, []);
-console.log(newConfigFile);
 script.writeFile("~/.mmm", newConfigFile.join("\n"));
 
