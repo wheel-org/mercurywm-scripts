@@ -104,8 +104,8 @@ else if (args[0] === "remove") {
 	var file = script.getFile("~/bin/" + args[1]);
 	if (file !== false && index !== -1) {
 		script.deleteFile("~/bin/" + args[1]);
-		config.splice(index, 1);
 		script.output("Module " + config[index].join("@") + " removed!");
+		config.splice(index, 1);
 	}
 	else if (index !== -1) {
 		script.output("Looks like this module was already removed! Removed from list of installed modules.");
