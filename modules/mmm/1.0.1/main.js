@@ -87,7 +87,7 @@ if (args[0] === "install") {
 	else {
 		config.push([module, version]);
 	}
-	script.writeFile("~/bin/" + module, code);
+	script.writeFile("~/.bin/" + module, code);
 	// Load man page
 	script.output("Retrieving man page");
 	var man = getData(url + version + "/man.md");
@@ -101,9 +101,9 @@ if (args[0] === "install") {
 }
 else if (args[0] === "remove") {
 	var index = indexOfModule(args[1]);
-	var file = script.getFile("~/bin/" + args[1]);
+	var file = script.getFile("~/.bin/" + args[1]);
 	if (file !== false && index !== -1) {
-		script.deleteFile("~/bin/" + args[1]);
+		script.deleteFile("~/.bin/" + args[1]);
 		script.output("Module " + config[index].join("@") + " removed!");
 		config.splice(index, 1);
 	}
@@ -113,7 +113,7 @@ else if (args[0] === "remove") {
 	}
 	else if (file !== false) {
 		script.output("Found the executable but was not logged as installed. Removing executable.");
-		script.deleteFile("~/bin/" + args[1]);
+		script.deleteFile("~/.bin/" + args[1]);
 	}
 	else {
 		script.output("Module " + args[1] + " is not installed!");
