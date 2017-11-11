@@ -1,3 +1,0 @@
-## mmm
-
-Mercury Module Manager
