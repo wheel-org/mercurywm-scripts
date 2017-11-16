@@ -12,7 +12,7 @@ function getData(url) {
 // Argument checking
 if (args.length === 0) {
     script.output("mmm: MercuryWM Module Manager");
-    script.output("Usage: mmm [install | remove] [MODULE] [-f]");
+    script.output("Usage: mmm [install | remove | update] [MODULE] [-f]");
     script.output("       mmm [auto-update | list]");
     script.output("");
     script.output("Flags:");
@@ -47,6 +47,11 @@ else if (configFile.data) {
 }
 
 var module = args[1];
+var update = false;
+if (args[0] === "update") {
+    update = true;
+    args[0] = "install";
+}
 if (args[0] === "install") {
     // Find module
     script.output("Searching for module " + module);
@@ -66,11 +71,13 @@ if (args[0] === "install") {
     //   interpreted as string
     if (config[module] && config[module] == version) {
         // Exists Already
-        script.output("Module " + module + "@" + config[module] + " already exists!");
-        if (force) {
-            script.output("Forceful install will overwrite existing module!");
-        }
-        else {
+        if (!force) {
+            if (update) {
+                script.output("Module " + module + "@" + config[module] + " is already the latest version!");
+            }
+            else {
+                script.output("Module " + module + "@" + config[module] + " already exists!");
+            }
             return;
         }
     }
@@ -123,7 +130,12 @@ else if (args[0] === "remove") {
     }
 }
 else if (args[0] === "auto-update") {
-
+    Object.keys(config).forEach(function (mod) {
+        script.output("Updating " + mod + "...");
+        script.exec("mmm update " + mod);
+        script.output("\n");
+    });
+    script.output("All modules brought up to date!");
 }
 else if (args[0] === "list") {
     script.output("Installed packages:");
