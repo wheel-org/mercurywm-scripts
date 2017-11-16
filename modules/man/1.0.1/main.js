@@ -10,8 +10,8 @@ function display(command) {
     var manFile = script.getFile('~/.man/' + command);
     if (manFile) {
         script.output(manFile.data);
-    }	
-	else {
-	    script.output('No entry for ' + command);
-	}
+    }
+    else {
+        script.output('No entry for ' + command);
+    }
 }
