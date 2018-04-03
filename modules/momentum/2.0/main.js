@@ -35,8 +35,8 @@ var files = {
         html: `\
 <div style="text-align: center;">
     <h2 id="greeting" style="
-        color: white;   
-        font-family: Helvetica;     
+        color: white;
+        font-family: Helvetica;
         font-size: 3em;
         font-weight: 500;
     "></h2>
@@ -105,7 +105,7 @@ ti.addEventListener('keydown', function(event) {
         ti.style.display = 'none';
         tt.style.display = 'block';
         tt.innerHTML = ti.value;
-    } 
+    }
 });`
     },
     'quote': {
@@ -132,8 +132,7 @@ Object.keys(files).forEach(f => {
     }
 });
 
-
-var momentum = script.createDirectory(".momentum", formatFiles);
+script.createDirectory(".momentum", formatFiles);
 
 // Creating workspace
 
@@ -194,23 +193,18 @@ var windows = [
 var formatWindows = windows.map(w => Object.assign({},
     script.createWindow(w.x, w.y, w.w, w.h, Date.now() + Math.random() * 100000 | 0), {
     terminal: Object.assign(script.createTerminal(), {
-        history: /*[w.command
+        history: [w.command
             ? 'render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js'
             : 'text'
-        ]*/ [''],
-        inProg: true,
+        ],
+        isExtension: true,
         runningCommand: w.command ? 'render' : 'text',
         params: w.command
-            ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']   
+            ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']
             : []
     })
 }));
 
-var momentumWS = { windows: formatWindows };
-
-// script.output(JSON.stringify(momentum));
-// script.output(JSON.stringify(formatWindows));
-script.state.wfs.data.push(momentum);
-script.state.workspaces.push(momentumWS);
+script.addWorkspace(formatWindows);
 
 script.output("momentum installed! Open the new workspace to view momentum.")
