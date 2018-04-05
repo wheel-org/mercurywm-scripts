@@ -44,9 +44,11 @@ var files = {
         js: `\
 var g = document.getElementById('greeting');
 var d = new Date();
-var greet = 'morning';
-if (d.getHours() >= 12 && d.getHours() < 18) greet = 'afternoon';
-else if (d.getHours() >= 18 && d.getHours <= 23) greet = 'evening';
+var greet = 'night';
+var currHour = d.getHours();
+if (currHour >= 6 && currHour < 12) greet = 'morning';
+else if (currHour >= 12 && currHour < 17) greet = 'afternoon';
+else if (currHour >= 17 && currHour < 21) greet = 'evening';
 
 var username = env.username || 'MercuryWM';
 g.innerHTML = 'Good ' + greet + ', ' + username + '.';`
@@ -115,9 +117,19 @@ ti.addEventListener('keydown', function(event) {
         color: white;
         font-family: Helvetica;
         font-size: 1.2em;
-    ">“Wherever you go, go with all your heart.”</p>
+    "></p>
 </div>`,
-        js: 'console.log("lol")'
+        js: `\
+fetch('http://quotes.rest/qod', {
+  headers: {
+    'Accept': 'application/json'
+  }
+}).then(res => res.json()).then(data => {
+  console.log(data);
+  var quoteBox = document.getElementById('quote');
+  var quote = data.contents.quotes[0].quote;
+  quoteBox.innerHTML = '"' + quote + '"';
+});`
     }
 };
 
@@ -206,5 +218,8 @@ var formatWindows = windows.map(w => Object.assign({},
 }));
 
 script.addWorkspace(formatWindows);
+
+script.output('Setting daily background image');
+script.exec('env background https://source.unsplash.com/daily?landscape,vibrant');
 
 script.output("momentum installed! Open the new workspace to view momentum.")
