@@ -125,7 +125,6 @@ fetch('http://quotes.rest/qod', {
     'Accept': 'application/json'
   }
 }).then(res => res.json()).then(data => {
-  console.log(data);
   var quoteBox = document.getElementById('quote');
   var quote = data.contents.quotes[0].quote;
   quoteBox.innerHTML = '"' + quote + '"';
@@ -203,14 +202,13 @@ var windows = [
 ];
 
 var formatWindows = windows.map(w => Object.assign({},
-    script.createWindow(w.x, w.y, w.w, w.h, Date.now() + Math.random() * 100000 | 0), {
+    script.createWindow(w.x, w.y, w.w, w.h, Math.round(Date.now() + Math.random() * 100000)), {
     terminal: Object.assign(script.createTerminal(), {
-        history: [w.command
-            ? 'render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js'
-            : 'text'
-        ],
+        history: w.command
+            ? ['render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js']
+            : ['render'],
         isExtension: true,
-        runningCommand: w.command ? 'render' : 'text',
+        runningCommand: 'render',
         params: w.command
             ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']
             : []
