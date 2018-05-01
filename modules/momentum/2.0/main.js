@@ -35,8 +35,8 @@ var files = {
         html: `\
 <div style="text-align: center;">
     <h2 id="greeting" style="
-        color: white;   
-        font-family: Helvetica;     
+        color: white;
+        font-family: Helvetica;
         font-size: 3em;
         font-weight: 500;
     "></h2>
@@ -44,9 +44,11 @@ var files = {
         js: `\
 var g = document.getElementById('greeting');
 var d = new Date();
-var greet = 'morning';
-if (d.getHours() >= 12 && d.getHours() < 18) greet = 'afternoon';
-else if (d.getHours() >= 18 && d.getHours <= 23) greet = 'evening';
+var greet = 'night';
+var currHour = d.getHours();
+if (currHour >= 6 && currHour < 12) greet = 'morning';
+else if (currHour >= 12 && currHour < 17) greet = 'afternoon';
+else if (currHour >= 17 && currHour < 21) greet = 'evening';
 
 var username = env.username || 'MercuryWM';
 g.innerHTML = 'Good ' + greet + ', ' + username + '.';`
@@ -105,7 +107,7 @@ ti.addEventListener('keydown', function(event) {
         ti.style.display = 'none';
         tt.style.display = 'block';
         tt.innerHTML = ti.value;
-    } 
+    }
 });`
     },
     'quote': {
@@ -115,9 +117,18 @@ ti.addEventListener('keydown', function(event) {
         color: white;
         font-family: Helvetica;
         font-size: 1.2em;
-    ">“Wherever you go, go with all your heart.”</p>
+    "></p>
 </div>`,
-        js: 'console.log("lol")'
+        js: `\
+fetch('http://quotes.rest/qod', {
+  headers: {
+    'Accept': 'application/json'
+  }
+}).then(res => res.json()).then(data => {
+  var quoteBox = document.getElementById('quote');
+  var quote = data.contents.quotes[0].quote;
+  quoteBox.innerHTML = '"' + quote + '"';
+});`
     }
 };
 
@@ -132,8 +143,7 @@ Object.keys(files).forEach(f => {
     }
 });
 
-
-var momentum = script.createDirectory(".momentum", formatFiles);
+script.createDirectory(".momentum", formatFiles);
 
 // Creating workspace
 
@@ -192,25 +202,22 @@ var windows = [
 ];
 
 var formatWindows = windows.map(w => Object.assign({},
-    script.createWindow(w.x, w.y, w.w, w.h, Date.now() + Math.random() * 100000 | 0), {
+    script.createWindow(w.x, w.y, w.w, w.h, Math.round(Date.now() + Math.random() * 100000)), {
     terminal: Object.assign(script.createTerminal(), {
-        history: /*[w.command
-            ? 'render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js'
-            : 'text'
-        ]*/ [''],
-        inProg: true,
-        runningCommand: w.command ? 'render' : 'text',
+        history: w.command
+            ? ['render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js']
+            : ['render'],
+        isExtension: true,
+        runningCommand: 'render',
         params: w.command
-            ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']   
+            ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']
             : []
     })
 }));
 
-var momentumWS = { windows: formatWindows };
+script.addWorkspace(formatWindows);
 
-// script.output(JSON.stringify(momentum));
-// script.output(JSON.stringify(formatWindows));
-script.state.wfs.data.push(momentum);
-script.state.workspaces.push(momentumWS);
+script.output('Setting daily background image');
+script.exec('env background https://source.unsplash.com/daily?landscape,vibrant');
 
 script.output("momentum installed! Open the new workspace to view momentum.")

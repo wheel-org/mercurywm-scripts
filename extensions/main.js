@@ -2,6 +2,7 @@ window.onload = function() {
     var cKey = 67; // 'c'
     window.addEventListener('keydown', function(e) {
         if (e.ctrlKey && e.keyCode === cKey) {
+            // Quit extension on Ctrl+C
             done();
         }
     });
@@ -10,10 +11,10 @@ window.onload = function() {
     document.body.style.overflow = 'hidden';
 
     var textareas = document.getElementsByTagName('textarea');
-    var count = textareas.length;
-    for(var i = 0; i < count; i++) {
+    for(var i = 0; i < textareas.length; i++) {
         textareas[i].onkeydown = function(e) {
-            if(e.keyCode == 9 || e.which == 9) {
+            if(e.keyCode === 9 || e.which === 9) {
+                // Output tab character instead of switching focus
                 e.preventDefault();
                 var s = this.selectionStart;
                 this.value = this.value.slice(0, this.selectionStart) + '\t' + this.value.slice(this.selectionEnd);
@@ -41,7 +42,11 @@ var id = $_GET.id
 var params = JSON.parse($_GET.params);
 var env = JSON.parse($_GET.env);
 var workingDirectory = $_GET.workingDirectory;
-var fileRequestCallback;
+var fileRequestCallback = {};
+
+function sendMessage(msg) {
+    parent.postMessage(JSON.stringify(msg), '*');
+}
 
 function getEnv(key) {
     return env[key] || '';
@@ -49,31 +54,44 @@ function getEnv(key) {
 
 function setEnv(key, value) {
     env[key] = value;
-    parent.postMessage('env|' + key + '|' + value, '*');
+    sendMessage({
+      type: 'env',
+      key,
+      value
+    });
 }
 
 function done() {
-    parent.postMessage('done|' + id, '*');
+    sendMessage({
+      type: 'done',
+      id
+    });
 }
 
 function getFile(path, callback) {
-    fileRequestCallback = callback;
-    parent.postMessage('requestFile|' + path, '*');
+    fileRequestCallback[path] = callback;
+    sendMessage({
+      type: 'requestFile',
+      path
+    });
 }
 
 function writeFile(path, content) {
-    parent.postMessage('writeFile|' + path + '|' + content, '*');
+    sendMessage({
+      type: 'writeFile',
+      path,
+      content
+    });
 }
 
 window.addEventListener('message', receiveMessage, false);
 
 function receiveMessage(event) {
-    var message = event.data;
-    var parts = event.data.split('|');
-    if (parts[0] === 'file') {
-        if (fileRequestCallback != null) {
-            fileRequestCallback(message.substring(message.indexOf('|') + 1));
+    var message = JSON.parse(event.data);
+    if (message.type === 'file') {
+        if (fileRequestCallback[message.path]) {
+            fileRequestCallback[message.path](message.contents);
+            delete fileRequestCallback[message.path];
         }
-        fileRequestCallback = null;
     }
 }
