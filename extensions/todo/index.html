@@ -8,10 +8,19 @@
 		<script type="text/javascript" src="../main.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
-                $("#txt").val(getEnv("todo"));
-                $("#txt").keyup(function(e) {
-                    setEnv("todo", $(this).val());
-                });
+				var filePath = ".todo";
+				// Migration
+				if (getEnv("todo")) {
+					writeFile(filePath, getEnv("todo"));
+					setEnv("todo", "");
+				}
+				getFile(filePath, function(fileContents) {
+					   $("#txt").val(fileContents);
+				   });
+
+				   $("#txt").keyup(function(e) {
+					   writeFile(filePath, $(this).val());
+				   });
 			});
 		</script>
 	</body>
