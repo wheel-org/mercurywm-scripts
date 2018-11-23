@@ -84,6 +84,14 @@ function writeFile(path, content) {
     });
 }
 
+// Capture click event to tell Mercury this window is selected
+document.addEventListener('click', () => {
+    sendMessage({
+        type: 'selectWindow',
+        id
+    });
+}, true);
+
 window.addEventListener('message', receiveMessage, false);
 
 function receiveMessage(event) {
