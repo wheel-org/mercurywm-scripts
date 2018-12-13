@@ -136,10 +136,10 @@ var formatFiles = [];
 
 Object.keys(files).forEach(f => {
     if (files[f].html) {
-        formatFiles.push(script.createFile(f, files[f].html));
+        formatFiles.push(script.createFile(f + ".html", files[f].html));
     }
     if (files[f].js) {
-        formatFiles.push(script.createFile(f + "js", files[f].js));
+        formatFiles.push(script.createFile(f + ".js", files[f].js));
     }
 });
 
@@ -205,12 +205,12 @@ var formatWindows = windows.map(w => Object.assign({},
     script.createWindow(w.x, w.y, w.w, w.h, Math.round(Date.now() + Math.random() * 100000)), {
     terminal: Object.assign(script.createTerminal(), {
         history: w.command
-            ? ['render ~/.momentum/' + w.command + ' ~/.momentum/' + w.command + 'js']
+            ? ['render ~/.momentum/' + w.command + '.html', '~/.momentum/' + w.command + '.js']
             : ['render'],
         isExtension: true,
         runningCommand: 'render',
         params: w.command
-            ? ['~/.momentum/' + w.command, '~/.momentum/' + w.command + 'js']
+            ? ['~/.momentum/' + w.command + '.html', '~/.momentum/' + w.command + '.js']
             : []
     })
 }));
