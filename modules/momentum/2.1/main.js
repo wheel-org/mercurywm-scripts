@@ -50,7 +50,7 @@ if (currHour >= 6 && currHour < 12) greet = 'morning';
 else if (currHour >= 12 && currHour < 17) greet = 'afternoon';
 else if (currHour >= 17 && currHour < 21) greet = 'evening';
 
-var username = getEnv(username) || 'MercuryWM';
+var username = getEnv('username') || 'MercuryWM';
 g.innerHTML = 'Good ' + greet + ', ' + username + '.';`
     },
     'time': {

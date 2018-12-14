@@ -48,6 +48,11 @@ else if (configFile.data) {
 
 var module = args[1];
 var update = false;
+const idx = module.indexOf('/');
+const author = module.substr(0, idx);
+const pkg = module.substr(idx + 1);
+const fileName = author ? author + '-' + pkg : module;
+
 if (args[0] === 'update') {
     update = true;
     args[0] = 'install';
@@ -56,8 +61,9 @@ if (args[0] === 'install') {
     // Find module
     script.output('Searching for module ' + module);
 
-    var url =
-      'https://wheel-org.github.io/mercurywm-scripts/modules/' + module + '/';
+    const url = author ?
+        'https://raw.githubusercontent.com/' + author + '/' + pkg + '/master/' :
+        'https://raw.githubusercontent.com/wheel-org/mercurywm-scripts/master/modules/' + pkg + '/';
 
     // Get version
     var version = getData(url + 'VERSION');
@@ -113,7 +119,29 @@ if (args[0] === 'install') {
         );
     }
     config[module] = version;
-    script.writeFile('~/.bin/' + module, code);
+
+    script.writeFile('~/.bin/' + fileName, code);
+
+    // Look for additional files that the module needs
+    const additionalFiles = getData(url + 'FILES');
+    if (additionalFiles) {
+        const files = additionalFiles.trim().split('\n');
+        script.output('Additional files found: ' + files.join(', '));
+
+        /* This call could complain if another package by this author has caused
+         * this dir to be created already */
+        script.exec('mkdir ~/.bin/' + author);
+        script.exec('mkdir ~/.bin/' + author + '/' + pkg);
+
+        files.forEach((file) => {
+            const content = getData(url + version + '/' + file);
+            if (!content) {
+                script.output('Failed to retrieve ' + file + '.');
+                return;
+            }
+            script.writeFile('~/.bin/' + author + '/' + pkg + '/' + file, content);
+        });
+    }
 
     // Load man page
     script.output('Retrieving man page');
@@ -128,10 +156,10 @@ if (args[0] === 'install') {
     script.output('====================================');
 }
 else if (args[0] === 'remove') {
-    var file = script.getFile('~/.bin/' + module);
+    var file = script.getFile('~/.bin/' + fileName);
 
     if (file !== false && config[module]) {
-        script.deleteFile('~/.bin/' + module);
+        script.deleteFile('~/.bin/' + fileName);
         script.output('Module ' + module + '@' + config[module] + ' removed!');
         delete config[module];
     }
@@ -145,7 +173,7 @@ else if (args[0] === 'remove') {
         script.output(
           'Found the executable but was not logged as installed. Removing executable.'
         );
-        script.deleteFile('~/.bin/' + module);
+        script.deleteFile('~/.bin/' + fileName);
     }
     else {
         script.output('Module ' + module + ' is not installed!');
