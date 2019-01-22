@@ -1,5 +1,5 @@
 // mmm: MercuryWM Module Manager
-// Version: 2.0
+// Version: 2.1
 
 function getData(url) {
     var xml = new XMLHttpRequest();
@@ -46,7 +46,7 @@ else if (configFile.data) {
     }, {});
 }
 
-var module = args[1];
+var module = args[1] || "";
 var update = false;
 const idx = module.indexOf('/');
 const author = module.substr(0, idx);
