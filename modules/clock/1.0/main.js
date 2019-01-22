@@ -1,4 +1,4 @@
-const deps = '~/.bin/fg123/clock';
+const deps = '~/.bin/.mercurywm/clock';
 const html = deps + '/index.html';
 const css = deps + '/flipclock.css';
 const js = deps + '/flipclock.min.js';

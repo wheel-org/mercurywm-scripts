@@ -49,7 +49,7 @@ else if (configFile.data) {
 var module = args[1] || "";
 var update = false;
 const idx = module.indexOf('/');
-const author = module.substr(0, idx);
+let author = module.substr(0, idx);
 const pkg = module.substr(idx + 1);
 const fileName = author ? author + '-' + pkg : module;
 
@@ -65,6 +65,10 @@ if (args[0] === 'install') {
         'https://raw.githubusercontent.com/' + author + '/' + pkg + '/master/' :
         'https://raw.githubusercontent.com/wheel-org/mercurywm-scripts/master/modules/' + pkg + '/';
 
+	if (!author) {
+		/* For .mercurywm default modules that use FILES */
+		author = '.mercurywm';
+	}
     // Get version
     var version = getData(url + 'VERSION');
     if (!version) {
