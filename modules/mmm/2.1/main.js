@@ -52,6 +52,14 @@ const idx = module.indexOf('/');
 let author = module.substr(0, idx);
 const pkg = module.substr(idx + 1);
 const fileName = author ? author + '-' + pkg : module;
+const url = author ?
+	'https://raw.githubusercontent.com/' + author + '/' + pkg + '/master/' :
+	'https://raw.githubusercontent.com/wheel-org/mercurywm-scripts/master/modules/' + pkg + '/';
+
+if (!author) {
+	/* For .mercurywm default modules that use FILES */
+	author = '.mercurywm';
+}
 
 if (args[0] === 'update') {
     update = true;
@@ -61,14 +69,6 @@ if (args[0] === 'install') {
     // Find module
     script.output('Searching for module ' + module);
 
-    const url = author ?
-        'https://raw.githubusercontent.com/' + author + '/' + pkg + '/master/' :
-        'https://raw.githubusercontent.com/wheel-org/mercurywm-scripts/master/modules/' + pkg + '/';
-
-	if (!author) {
-		/* For .mercurywm default modules that use FILES */
-		author = '.mercurywm';
-	}
     // Get version
     var version = getData(url + 'VERSION');
     if (!version) {
@@ -164,6 +164,7 @@ else if (args[0] === 'remove') {
 
     if (file !== false && config[module]) {
         script.deleteFile('~/.bin/' + fileName);
+        script.deleteDirectory('~/.bin/' + author + '/' + pkg);
         script.output('Module ' + module + '@' + config[module] + ' removed!');
         delete config[module];
     }
@@ -178,6 +179,7 @@ else if (args[0] === 'remove') {
           'Found the executable but was not logged as installed. Removing executable.'
         );
         script.deleteFile('~/.bin/' + fileName);
+        script.deleteDirectory('~/.bin/' + author + '/' + pkg);
     }
     else {
         script.output('Module ' + module + ' is not installed!');
